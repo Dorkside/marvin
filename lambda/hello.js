@@ -1,8 +1,7 @@
 const { Wit, log } = require("node-wit");
 
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
-module.exports.handler = async function(event, context) {
-  console.log("queryStringParameters", event.queryStringParameters);
+module.exports.handler = async function (event, context) {
   const { q } = event.queryStringParameters;
 
   const client = new Wit({

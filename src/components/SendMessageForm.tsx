@@ -26,7 +26,6 @@ class SendMessageForm extends React.Component<
   }
 
   handleChange(e: any) {
-    console.log(e.target.value);
     this.setState({
       message: e.target.value,
     });
@@ -34,7 +33,6 @@ class SendMessageForm extends React.Component<
 
   handleSubmit(e: any) {
     e.preventDefault();
-    console.log(this.state.message);
     if (this.messageCallback) {
       this.messageCallback({
         sender: "user",
