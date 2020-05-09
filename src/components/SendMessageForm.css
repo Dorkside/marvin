@@ -1,0 +1,11 @@
+.send-message-form {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: blue;
+}
+
+.send-message-form input {
+  color: black;
+}

@@ -2,11 +2,12 @@ import React from "react";
 import { IonPage } from "@ionic/react";
 import "./Marvin.css";
 import MessageList from "../components/MessageList";
+import SendMessageForm from "../components/SendMessageForm";
 
 type Message = {
   id: number;
-  sender?: String;
-  text?: String;
+  sender?: string;
+  text?: string;
 };
 
 type MarvinState = {
@@ -17,28 +18,43 @@ class Marvin extends React.Component<{}, MarvinState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      messages: [{ id: 0, sender: "marvin", text: "Hi." }],
+      messages: [],
     };
+    this.addMessage = this.addMessage.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
   }
 
-  addMessage(message: Partial<Message>): Message[] {
-    return [
-      ...this.state.messages,
-      { id: this.state.messages.length, ...message },
-    ];
+  addMessage(message: Partial<Message>): void {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        { id: this.state.messages.length, ...message },
+      ],
+    });
   }
 
-  componentDidMount() {
-    fetch("/.netlify/functions/hello")
+  handleMessage(message: Partial<Message>) {
+    this.addMessage(message);
+    this.queryMessage(message.text);
+  }
+
+  queryMessage(messageString?: string) {
+    fetch(`/.netlify/functions/hello?q=${messageString}`)
       .then((res) => res.json())
       .then(
         (result) => {
           console.log(result);
+          const text = result.entities.intent[0].metadata;
+          this.addMessage({ sender: "marvin", text });
         },
         (error) => {
           console.warn(error);
         }
       );
+  }
+
+  componentDidMount() {
+    this.queryMessage("initialisation");
   }
 
   componentWillUnmount() {}
@@ -47,7 +63,7 @@ class Marvin extends React.Component<{}, MarvinState> {
     return (
       <IonPage>
         <MessageList messages={this.state.messages}></MessageList>
-        <input></input>
+        <SendMessageForm messageCallback={this.handleMessage}></SendMessageForm>
       </IonPage>
     );
   }
