@@ -1,0 +1,7 @@
+{
+  "name": "Marvin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
