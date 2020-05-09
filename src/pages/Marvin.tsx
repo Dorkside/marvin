@@ -28,7 +28,18 @@ class Marvin extends React.Component<{}, MarvinState> {
     ];
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    fetch("/.netlify/functions/hello")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+        },
+        (error) => {
+          console.warn(error);
+        }
+      );
+  }
 
   componentWillUnmount() {}
 
