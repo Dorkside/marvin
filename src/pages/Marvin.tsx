@@ -43,8 +43,12 @@ class Marvin extends React.Component<{}, MarvinState> {
       .then((res) => res.json())
       .then(
         (result) => {
-          const text = result.entities.intent[0].metadata;
-          this.addMessage({ sender: "marvin", text });
+          const { entities } = result;
+          console.log("Entities", entities);
+          if (entities.intent) {
+            const text = entities.intent[0].metadata;
+            this.addMessage({ sender: "marvin", text });
+          }
         },
         (error) => {
           console.warn(error);
